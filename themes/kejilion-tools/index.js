@@ -231,9 +231,15 @@ const HomeIntro = () => {
   const email = siteConfig('KEJILION_EMAIL', CONFIG.KEJILION_EMAIL, CONFIG)
 
   return (
-    <section className='mb-10 flex flex-col gap-5 sm:mb-12 sm:flex-row sm:items-start sm:justify-between'>
+    <section className='mb-10 sm:mb-12'>
       <div className='flex-1'>
-        <h1 className='kt-hero-name text-3xl font-bold tracking-tight sm:text-5xl'>{brand}</h1>
+        <div className='flex items-center gap-3 sm:gap-4'>
+          {avatar && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={avatar} alt={brand} className='kt-avatar' />
+          )}
+          <h1 className='kt-hero-name text-3xl font-bold tracking-tight sm:text-5xl'>{brand}</h1>
+        </div>
         {subtitle && (
           <p className='mt-3 max-w-md text-sm leading-7 text-gray-500 dark:text-gray-400'>
             {subtitle}
@@ -257,10 +263,6 @@ const HomeIntro = () => {
           )}
         </div>
       </div>
-      {avatar && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={avatar} alt={brand} className='kt-avatar order-first sm:order-last' />
-      )}
     </section>
   )
 }
