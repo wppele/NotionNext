@@ -317,7 +317,7 @@ const PostGroups = ({ posts }) => {
       {Object.keys(groups).map(category => (
         <section key={category}>
           <p className='kt-section-title'>{category}</p>
-          <div className='grid gap-3 sm:grid-cols-2'>
+          <div className='grid gap-3 sm:grid-cols-2 lg:grid-cols-4'>
             {groups[category].map(post => (
               <PostCard key={post.slug || post.id || post.title || post.name} post={post} />
             ))}
@@ -383,7 +383,7 @@ const LayoutArchive = props => {
 }
 
 /* ── TOC ── */
-const TableOfContents = ({ post }) => {
+const TableOfContents = ({ post, floating = false }) => {
   const [activeId, setActiveId] = useState('')
   const observerRef = useRef(null)
 
@@ -427,7 +427,7 @@ const TableOfContents = ({ post }) => {
   if (!toc.length) return null
 
   return (
-    <aside>
+    <aside className={cx(floating && 'kt-toc-floating')}>
       <p className='kt-section-title mb-3'>On this page</p>
       <nav className='kt-toc'>
         {toc.map(item => {
@@ -555,7 +555,7 @@ const LayoutSlug = props => {
           <div id='article-wrapper'>
             <NotionPage post={post} />
           </div>
-          <TableOfContents post={post} />
+          <TableOfContents post={post} floating />
         </div>
       )}
     </div>

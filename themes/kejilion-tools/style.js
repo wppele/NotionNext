@@ -327,7 +327,9 @@ const Style = () => {
       }
       @media (min-width: 900px) {
         #theme-kejilion-tools .kt-article-layout {
-          grid-template-columns: minmax(0, 1fr) 220px;
+          display: block;
+          padding-right: 260px;
+          position: relative;
         }
       }
 
@@ -370,6 +372,25 @@ const Style = () => {
       }
       #theme-kejilion-tools .kt-toc .kt-toc-h2 {
         padding-left: 16px;
+      }
+      @media (min-width: 900px) {
+        #theme-kejilion-tools .kt-toc-floating {
+          position: fixed;
+          top: 88px;
+          right: max(20px, calc((100vw - 1180px) / 2));
+          width: 220px;
+          max-height: calc(100vh - 112px);
+          overflow: hidden;
+          z-index: 20;
+        }
+        #theme-kejilion-tools .kt-toc-floating .kt-toc {
+          max-height: calc(100vh - 150px);
+        }
+      }
+      @media (max-width: 899px) {
+        #theme-kejilion-tools .kt-toc-floating {
+          display: none;
+        }
       }
 
       /* ── notion content overrides ── */
