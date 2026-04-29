@@ -85,9 +85,10 @@ const IconSun = () => (
 /* ── Header ── */
 const Header = props => {
   const { customMenu } = props
-  const { isDarkMode, toggleDarkMode } = useGlobal()
+  const { isDarkMode, toggleDarkMode, siteInfo } = useGlobal()
   const router = useRouter()
-  const brand = siteConfig('KEJILION_BRAND', siteConfig('TITLE', CONFIG.KEJILION_BRAND), CONFIG)
+  const brand =
+    siteInfo?.title || siteConfig('TITLE') || siteConfig('KEJILION_BRAND', CONFIG.KEJILION_BRAND, CONFIG)
   const github = siteConfig('KEJILION_GITHUB', CONFIG.KEJILION_GITHUB, CONFIG)
 
   const fallbackMenu = [
@@ -142,7 +143,9 @@ const Header = props => {
 
 /* ── Footer ── */
 const Footer = () => {
-  const brand = siteConfig('KEJILION_BRAND', siteConfig('TITLE', CONFIG.KEJILION_BRAND), CONFIG)
+  const { siteInfo } = useGlobal()
+  const brand =
+    siteInfo?.title || siteConfig('TITLE') || siteConfig('KEJILION_BRAND', CONFIG.KEJILION_BRAND, CONFIG)
   const link = siteConfig('LINK')
   const since = siteConfig('SINCE')
   const year = new Date().getFullYear()
@@ -178,9 +181,13 @@ const LayoutBase = props => {
 
 /* ── Hero (homepage) ── */
 const HomeIntro = () => {
-  const brand = siteConfig('KEJILION_BRAND', siteConfig('TITLE', CONFIG.KEJILION_BRAND), CONFIG)
-  const subtitle = siteConfig('KEJILION_SUBTITLE', siteConfig('DESCRIPTION', CONFIG.KEJILION_SUBTITLE), CONFIG)
-  const avatar = siteConfig('KEJILION_AVATAR', siteConfig('AVATAR', CONFIG.KEJILION_AVATAR), CONFIG)
+  const { siteInfo } = useGlobal()
+  const brand =
+    siteInfo?.title || siteConfig('TITLE') || siteConfig('KEJILION_BRAND', CONFIG.KEJILION_BRAND, CONFIG)
+  const subtitle =
+    siteInfo?.description || siteConfig('DESCRIPTION') || siteConfig('KEJILION_SUBTITLE', CONFIG.KEJILION_SUBTITLE, CONFIG)
+  const avatar =
+    siteInfo?.icon || siteConfig('AVATAR') || siteConfig('KEJILION_AVATAR', CONFIG.KEJILION_AVATAR, CONFIG)
   const github = siteConfig('KEJILION_GITHUB', CONFIG.KEJILION_GITHUB, CONFIG)
   const twitter = siteConfig('KEJILION_TWITTER', CONFIG.KEJILION_TWITTER, CONFIG)
   const email = siteConfig('KEJILION_EMAIL', CONFIG.KEJILION_EMAIL, CONFIG)
