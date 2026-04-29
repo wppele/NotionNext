@@ -1,12 +1,12 @@
 const CONFIG = {
-  KEJILION_BRAND: process.env.NEXT_PUBLIC_KEJILION_BRAND || 'Kejilion',
+  KEJILION_BRAND: process.env.NEXT_PUBLIC_KEJILION_BRAND || 'Kejilion Tools',
   KEJILION_SUBTITLE:
     process.env.NEXT_PUBLIC_KEJILION_SUBTITLE ||
-    '面向 Windows 和日常工作的自动化与效率工具集合。',
+    'A small collection of tools, experiments, and notes.',
   KEJILION_AVATAR: process.env.NEXT_PUBLIC_KEJILION_AVATAR || '',
   KEJILION_EMPTY_TEXT:
     process.env.NEXT_PUBLIC_KEJILION_EMPTY_TEXT ||
-    '暂无内容，请在 Notion 中添加页面。',
+    'No published content found. Add Post pages in Notion to show them here.',
   KEJILION_GITHUB:
     process.env.NEXT_PUBLIC_CONTACT_GITHUB || process.env.NEXT_PUBLIC_GITHUB || '',
   KEJILION_TWITTER: process.env.NEXT_PUBLIC_CONTACT_TWITTER || '',

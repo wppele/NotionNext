@@ -23,7 +23,21 @@ const getTags = post => {
   return asArray(post?.tags).filter(Boolean)
 }
 const getExt = (post, key, fallback = '') => post?.ext?.[key] ?? post?.[key] ?? fallback
-const isVisiblePost = post => post?.type === 'Post' && post?.status === 'Published'
+const isVisiblePost = post => {
+  if (!post) return false
+  if (post.type && post.type !== 'Post') return false
+  if (post.status && post.status !== 'Published') return false
+  return true
+}
+const normalizePosts = posts => asArray(posts).filter(isVisiblePost)
+const getHomePosts = props => {
+  const sources = [props.posts, props.allNavPages, props.latestPosts, props.customNav]
+  for (const source of sources) {
+    const posts = normalizePosts(source)
+    if (posts.length) return posts
+  }
+  return []
+}
 const groupByCategory = posts => {
   const groups = {}
   posts.forEach(post => {
@@ -209,6 +223,7 @@ const HomeIntro = () => {
 /* ── PostCard ── */
 const PostCard = ({ post }) => {
   const href = getHref(post)
+  const title = post.title || post.name || 'Untitled'
   const summary = post.summary || getExt(post, 'description', '')
   const tags = getTags(post)
 
@@ -216,7 +231,7 @@ const PostCard = ({ post }) => {
     <SmartLink href={href} className='kt-focus kt-card kt-link group'>
       <div className='flex items-start justify-between gap-3'>
         <h3 className='text-sm font-semibold text-gray-900 transition group-hover:text-indigo-600 dark:text-gray-100 dark:group-hover:text-indigo-400'>
-          {post.title}
+          {title}
         </h3>
         <span className='mt-0.5 shrink-0 text-gray-300 transition group-hover:text-indigo-400 dark:text-gray-600 dark:group-hover:text-indigo-500'>
           <IconArrow />
@@ -259,7 +274,7 @@ const PostGroups = ({ posts }) => {
           <p className='kt-section-title'>{category}</p>
           <div className='grid gap-3 sm:grid-cols-2'>
             {groups[category].map(post => (
-              <PostCard key={post.slug || post.id || post.title} post={post} />
+              <PostCard key={post.slug || post.id || post.title || post.name} post={post} />
             ))}
           </div>
         </section>
@@ -270,7 +285,7 @@ const PostGroups = ({ posts }) => {
 
 /* ── LayoutIndex ── */
 const LayoutIndex = props => {
-  const posts = (props.allNavPages || props.latestPosts || []).filter(isVisiblePost)
+  const posts = getHomePosts(props)
 
   return (
     <div className='kt-shell py-14'>
@@ -312,7 +327,7 @@ const LayoutArchive = props => {
             <p className='kt-section-title'>{group}</p>
             <div className='grid gap-3 sm:grid-cols-2'>
               {archivePosts[group].map(post => (
-                <PostCard key={post.slug || post.id || post.title} post={post} />
+                <PostCard key={post.slug || post.id || post.title || post.name} post={post} />
               ))}
             </div>
           </section>
