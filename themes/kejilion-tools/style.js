@@ -19,6 +19,14 @@ const Style = () => {
         width: min(860px, calc(100% - 40px));
         margin: 0 auto;
       }
+      @media (max-width: 640px) {
+        #theme-kejilion-tools {
+          font-size: 15px;
+        }
+        #theme-kejilion-tools .kt-shell {
+          width: min(100% - 28px, 860px);
+        }
+      }
 
       /* ── links ── */
       #theme-kejilion-tools .kt-link {
@@ -53,6 +61,16 @@ const Style = () => {
       .dark #theme-kejilion-tools .kt-header {
         background: rgba(15, 15, 15, 0.85);
         border-bottom-color: rgba(255, 255, 255, 0.07);
+      }
+      #theme-kejilion-tools .kt-brand {
+        min-width: 0;
+        max-width: min(58vw, 360px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      #theme-kejilion-tools .kt-icon-btn {
+        flex: 0 0 auto;
       }
 
       /* ── nav pill ── */
@@ -101,6 +119,42 @@ const Style = () => {
         color: #e8e8e8;
       }
 
+      /* ── mobile nav ── */
+      #theme-kejilion-tools .kt-mobile-menu {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 0 0 12px;
+      }
+      #theme-kejilion-tools .kt-mobile-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.05);
+        color: #555;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 150ms ease, color 150ms ease;
+      }
+      .dark #theme-kejilion-tools .kt-mobile-link {
+        background: rgba(255, 255, 255, 0.06);
+        color: #bbb;
+      }
+      #theme-kejilion-tools .kt-mobile-link:hover,
+      #theme-kejilion-tools .kt-mobile-link.kt-mobile-active {
+        background: #fff;
+        color: #1a1a1a;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .dark #theme-kejilion-tools .kt-mobile-link:hover,
+      .dark #theme-kejilion-tools .kt-mobile-link.kt-mobile-active {
+        background: rgba(255, 255, 255, 0.12);
+        color: #e8e8e8;
+      }
+
       /* ── hero ── */
       #theme-kejilion-tools .kt-hero-name {
         background: linear-gradient(135deg, #1a1a1a 0%, #555 100%);
@@ -125,6 +179,12 @@ const Style = () => {
       }
       .dark #theme-kejilion-tools .kt-avatar {
         border-color: rgba(255, 255, 255, 0.1);
+      }
+      @media (max-width: 640px) {
+        #theme-kejilion-tools .kt-avatar {
+          width: 60px;
+          height: 60px;
+        }
       }
 
       /* ── social icon buttons ── */
@@ -151,6 +211,12 @@ const Style = () => {
       .dark #theme-kejilion-tools .kt-social-btn:hover {
         background: rgba(255, 255, 255, 0.12);
         color: #e8e8e8;
+      }
+      @media (max-width: 640px) {
+        #theme-kejilion-tools .kt-social-btn {
+          min-height: 38px;
+          padding: 8px 12px;
+        }
       }
 
       /* ── section heading ── */
@@ -187,6 +253,15 @@ const Style = () => {
       .dark #theme-kejilion-tools .kt-card:hover {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         border-color: rgba(255, 255, 255, 0.14);
+      }
+      @media (max-width: 640px) {
+        #theme-kejilion-tools .kt-card {
+          border-radius: 14px;
+          padding: 16px;
+        }
+        #theme-kejilion-tools .kt-card:hover {
+          transform: none;
+        }
       }
 
       /* ── tag chip ── */
@@ -299,6 +374,28 @@ const Style = () => {
       }
       #theme-kejilion-tools #article-wrapper .notion-title {
         display: none;
+      }
+      @media (max-width: 640px) {
+        #theme-kejilion-tools #article-wrapper {
+          overflow-x: hidden;
+        }
+        #theme-kejilion-tools #article-wrapper .notion,
+        #theme-kejilion-tools #article-wrapper .notion-page,
+        #theme-kejilion-tools #article-wrapper .notion-viewport,
+        #theme-kejilion-tools #article-wrapper .notion-page-content {
+          max-width: 100% !important;
+        }
+        #theme-kejilion-tools #article-wrapper img,
+        #theme-kejilion-tools #article-wrapper video,
+        #theme-kejilion-tools #article-wrapper iframe {
+          max-width: 100%;
+          height: auto;
+        }
+        #theme-kejilion-tools #article-wrapper pre,
+        #theme-kejilion-tools #article-wrapper table {
+          max-width: 100%;
+          overflow-x: auto;
+        }
       }
 
       /* ── divider ── */

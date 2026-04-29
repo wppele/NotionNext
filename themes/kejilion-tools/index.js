@@ -81,35 +81,51 @@ const IconSun = () => (
     <path d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41' />
   </svg>
 )
+const IconMenu = () => (
+  <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <path d='M4 6h16M4 12h16M4 18h16' />
+  </svg>
+)
+const IconClose = () => (
+  <svg width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+    <path d='M18 6 6 18M6 6l12 12' />
+  </svg>
+)
 
 /* ── Header ── */
 const Header = props => {
   const { customMenu } = props
   const { isDarkMode, toggleDarkMode, siteInfo } = useGlobal()
   const router = useRouter()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const brand =
     siteInfo?.title || siteConfig('TITLE') || siteConfig('KEJILION_BRAND', CONFIG.KEJILION_BRAND, CONFIG)
   const github = siteConfig('KEJILION_GITHUB', CONFIG.KEJILION_GITHUB, CONFIG)
 
   const fallbackMenu = [
-    { name: 'Home', href: '/' },
-    { name: 'Archive', href: '/archive' },
-    { name: 'Categories', href: '/category' },
-    { name: 'Tags', href: '/tag' }
+    { name: '首页', href: '/' },
+    { name: '归档', href: '/archive' },
+    { name: '分类', href: '/category' },
+    { name: '标签', href: '/tag' }
   ]
   const menu = customMenu?.length ? customMenu : fallbackMenu
   const currentPath = trimSlash(router.asPath.split('?')[0])
+  const navItems = github ? [...menu, { name: 'GitHub', href: github }] : menu
+
+  useEffect(() => {
+    setMobileMenuOpen(false)
+  }, [router.asPath])
 
   return (
     <header className='kt-header'>
-      <div className='kt-shell flex items-center justify-between py-3'>
-        <SmartLink href='/' className='kt-focus kt-link text-sm font-semibold tracking-tight'>
+      <div className='kt-shell flex items-center justify-between gap-3 py-3'>
+        <SmartLink href='/' className='kt-brand kt-focus kt-link text-sm font-semibold tracking-tight'>
           {brand}
         </SmartLink>
 
         <div className='flex items-center gap-3'>
           <nav className='kt-nav-pill hidden sm:flex'>
-            {menu.map(item => {
+            {navItems.map(item => {
               const href = item.href || item.slug || '#'
               const active = href !== '#' && currentPath === trimSlash(href)
               return (
@@ -121,22 +137,43 @@ const Header = props => {
                 </SmartLink>
               )
             })}
-            {github && (
-              <SmartLink href={github} className='kt-focus kt-link'>
-                GitHub
-              </SmartLink>
-            )}
           </nav>
 
           <button
             type='button'
             onClick={toggleDarkMode}
-            className='kt-focus flex h-7 w-7 items-center justify-center rounded-full bg-black/5 text-gray-500 transition hover:bg-black/10 dark:bg-white/5 dark:text-gray-400 dark:hover:bg-white/10'
+            className='kt-icon-btn kt-focus flex h-8 w-8 items-center justify-center rounded-full bg-black/5 text-gray-500 transition hover:bg-black/10 dark:bg-white/5 dark:text-gray-400 dark:hover:bg-white/10'
             aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}>
             {isDarkMode ? <IconSun /> : <IconMoon />}
           </button>
+
+          <button
+            type='button'
+            onClick={() => setMobileMenuOpen(open => !open)}
+            className='kt-icon-btn kt-focus flex h-8 w-8 items-center justify-center rounded-full bg-black/5 text-gray-500 transition hover:bg-black/10 dark:bg-white/5 dark:text-gray-400 dark:hover:bg-white/10 sm:hidden'
+            aria-expanded={mobileMenuOpen}
+            aria-label={mobileMenuOpen ? '关闭菜单' : '打开菜单'}>
+            {mobileMenuOpen ? <IconClose /> : <IconMenu />}
+          </button>
         </div>
       </div>
+
+      {mobileMenuOpen && (
+        <nav className='kt-mobile-menu kt-shell sm:hidden'>
+          {navItems.map(item => {
+            const href = item.href || item.slug || '#'
+            const active = href !== '#' && currentPath === trimSlash(href)
+            return (
+              <SmartLink
+                key={`${item.name || item.title}-${href}`}
+                href={href}
+                className={cx('kt-focus kt-mobile-link', active && 'kt-mobile-active')}>
+                {item.name || item.title}
+              </SmartLink>
+            )
+          })}
+        </nav>
+      )}
     </header>
   )
 }
@@ -193,9 +230,9 @@ const HomeIntro = () => {
   const email = siteConfig('KEJILION_EMAIL', CONFIG.KEJILION_EMAIL, CONFIG)
 
   return (
-    <section className='mb-12 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between'>
+    <section className='mb-10 flex flex-col gap-5 sm:mb-12 sm:flex-row sm:items-start sm:justify-between'>
       <div className='flex-1'>
-        <h1 className='kt-hero-name text-4xl font-bold tracking-tight sm:text-5xl'>{brand}</h1>
+        <h1 className='kt-hero-name text-3xl font-bold tracking-tight sm:text-5xl'>{brand}</h1>
         {subtitle && (
           <p className='mt-3 max-w-md text-sm leading-7 text-gray-500 dark:text-gray-400'>
             {subtitle}
@@ -295,7 +332,7 @@ const LayoutIndex = props => {
   const posts = getHomePosts(props)
 
   return (
-    <div className='kt-shell py-14'>
+    <div className='kt-shell py-10 sm:py-14'>
       <HomeIntro />
       <PostGroups posts={posts} />
     </div>
@@ -308,8 +345,8 @@ const LayoutPostList = props => {
   const title = props.category || props.tag || props.keyword || 'Index'
 
   return (
-    <div className='kt-shell py-14'>
-      <h1 className='mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
+    <div className='kt-shell py-10 sm:py-14'>
+      <h1 className='mb-6 text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:mb-8 sm:text-3xl'>
         {title}
       </h1>
       <PostGroups posts={posts} />
@@ -324,9 +361,9 @@ const LayoutArchive = props => {
   const archivePosts = props.archivePosts || {}
 
   return (
-    <div className='kt-shell py-14'>
-      <h1 className='mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
-        Archive
+    <div className='kt-shell py-10 sm:py-14'>
+      <h1 className='mb-6 text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:mb-8 sm:text-3xl'>
+        归档
       </h1>
       <div className='space-y-10'>
         {Object.keys(archivePosts).map(group => (
@@ -460,9 +497,9 @@ const LayoutSlug = props => {
   const tags = getTags(post)
 
   return (
-    <div className='kt-shell py-14'>
+    <div className='kt-shell py-10 sm:py-14'>
       {/* hero header */}
-      <header className='mb-10 border-b border-black/7 pb-10 dark:border-white/7'>
+      <header className='mb-8 border-b border-black/7 pb-8 dark:border-white/7 sm:mb-10 sm:pb-10'>
         {post.category && (
           <SmartLink
             href={`/category/${post.category}`}
@@ -470,7 +507,7 @@ const LayoutSlug = props => {
             {post.category}
           </SmartLink>
         )}
-        <h1 className='text-3xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-4xl'>
+        <h1 className='text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-4xl'>
           {post.title}
         </h1>
         {post.summary && (
@@ -509,9 +546,9 @@ const LayoutCategoryIndex = props => {
   const categories = props.categoryOptions || []
 
   return (
-    <div className='kt-shell py-14'>
-      <h1 className='mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
-        Categories
+    <div className='kt-shell py-10 sm:py-14'>
+      <h1 className='mb-6 text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:mb-8 sm:text-3xl'>
+        分类
       </h1>
       <div className='divide-y divide-black/7 dark:divide-white/7'>
         {categories.map(cat => (
@@ -533,9 +570,9 @@ const LayoutTagIndex = props => {
   const tags = props.tagOptions || []
 
   return (
-    <div className='kt-shell py-14'>
-      <h1 className='mb-8 text-3xl font-bold tracking-tight text-gray-900 dark:text-white'>
-        Tags
+    <div className='kt-shell py-10 sm:py-14'>
+      <h1 className='mb-6 text-2xl font-bold tracking-tight text-gray-900 dark:text-white sm:mb-8 sm:text-3xl'>
+        标签
       </h1>
       <div className='flex flex-wrap gap-2'>
         {tags.map(tag => (
