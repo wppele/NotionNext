@@ -1,0 +1,26 @@
+const CONFIG = {
+  KEJILION_BRAND: process.env.NEXT_PUBLIC_KEJILION_BRAND || 'Kejilion Tools',
+  KEJILION_TAGLINE:
+    process.env.NEXT_PUBLIC_KEJILION_TAGLINE ||
+    '面向 Windows 和日常工作的自动化与效率工具集合。',
+  KEJILION_DESCRIPTION:
+    process.env.NEXT_PUBLIC_KEJILION_DESCRIPTION ||
+    '这里整理我持续开发和维护的小工具、桌面软件与自动化实验。当前主力项目是 AutoFlow。',
+  KEJILION_FEATURED_SLUG:
+    process.env.NEXT_PUBLIC_KEJILION_FEATURED_SLUG || 'projects/autoflow',
+  KEJILION_PROJECT_CATEGORY:
+    process.env.NEXT_PUBLIC_KEJILION_PROJECT_CATEGORY || 'Projects',
+  KEJILION_DOCS_CATEGORY:
+    process.env.NEXT_PUBLIC_KEJILION_DOCS_CATEGORY || 'Docs',
+  KEJILION_CHANGELOG_CATEGORY:
+    process.env.NEXT_PUBLIC_KEJILION_CHANGELOG_CATEGORY || 'Changelog',
+  KEJILION_PROJECTS_LABEL:
+    process.env.NEXT_PUBLIC_KEJILION_PROJECTS_LABEL || 'Projects',
+  KEJILION_DOCS_LABEL: process.env.NEXT_PUBLIC_KEJILION_DOCS_LABEL || 'Docs',
+  KEJILION_CHANGELOG_LABEL:
+    process.env.NEXT_PUBLIC_KEJILION_CHANGELOG_LABEL || 'Changelog',
+  KEJILION_GITHUB:
+    process.env.NEXT_PUBLIC_CONTACT_GITHUB || process.env.NEXT_PUBLIC_GITHUB || ''
+}
+
+export default CONFIG
