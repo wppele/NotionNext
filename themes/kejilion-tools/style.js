@@ -16,7 +16,7 @@ const Style = () => {
 
       /* ── layout ── */
       #theme-kejilion-tools .kt-shell {
-        width: min(860px, calc(100% - 40px));
+        width: min(1180px, calc(100% - 40px));
         margin: 0 auto;
       }
       @media (max-width: 640px) {
@@ -24,7 +24,7 @@ const Style = () => {
           font-size: 15px;
         }
         #theme-kejilion-tools .kt-shell {
-          width: min(100% - 28px, 860px);
+          width: min(100% - 28px, 1180px);
         }
       }
 
@@ -81,6 +81,11 @@ const Style = () => {
         background: rgba(0, 0, 0, 0.06);
         border-radius: 999px;
         padding: 3px;
+      }
+      @media (max-width: 640px) {
+        #theme-kejilion-tools .kt-nav-pill {
+          display: none !important;
+        }
       }
       .dark #theme-kejilion-tools .kt-nav-pill {
         background: rgba(255, 255, 255, 0.06);
@@ -322,7 +327,7 @@ const Style = () => {
       }
       @media (min-width: 900px) {
         #theme-kejilion-tools .kt-article-layout {
-          grid-template-columns: 1fr 200px;
+          grid-template-columns: minmax(0, 1fr) 220px;
         }
       }
 
@@ -362,6 +367,9 @@ const Style = () => {
       }
       #theme-kejilion-tools .kt-toc .kt-toc-h3 {
         padding-left: 20px;
+      }
+      #theme-kejilion-tools .kt-toc .kt-toc-h2 {
+        padding-left: 16px;
       }
 
       /* ── notion content overrides ── */

@@ -3,6 +3,7 @@ import SmartLink from '@/components/SmartLink'
 import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { useRouter } from 'next/router'
+import { uuidToId } from 'notion-utils'
 import { useEffect, useRef, useState } from 'react'
 import CONFIG from './config'
 import { Style } from './style'
@@ -387,22 +388,37 @@ const TableOfContents = ({ post }) => {
   const observerRef = useRef(null)
 
   const toc = post?.toc || []
+  const getTocId = item => uuidToId(item?.id || '')
+  const scrollToTocItem = (event, id) => {
+    event.preventDefault()
+    if (!id) return
+
+    const target = document.getElementById(id) || document.querySelector(`[data-id="${id}"]`)
+    if (!target) return
+
+    const headerOffset = 84
+    const top = target.getBoundingClientRect().top + window.scrollY - headerOffset
+    window.history.replaceState(null, '', `#${id}`)
+    window.scrollTo({ top, behavior: 'smooth' })
+    setActiveId(id)
+  }
 
   useEffect(() => {
     if (!toc.length) return
 
-    const headings = document.querySelectorAll(
-      '#article-wrapper h1, #article-wrapper h2, #article-wrapper h3'
-    )
+    const headings = document.querySelectorAll('#article-wrapper .notion-h')
     if (!headings.length) return
 
     observerRef.current = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) setActiveId(entry.target.id)
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('data-id') || entry.target.id
+            if (id) setActiveId(id)
+          }
         })
       },
-      { rootMargin: '0px 0px -60% 0px', threshold: 0 }
+      { rootMargin: '-96px 0px -60% 0px', threshold: 0 }
     )
     headings.forEach(h => observerRef.current.observe(h))
     return () => observerRef.current?.disconnect()
@@ -414,17 +430,22 @@ const TableOfContents = ({ post }) => {
     <aside>
       <p className='kt-section-title mb-3'>On this page</p>
       <nav className='kt-toc'>
-        {toc.map(item => (
-          <a
-            key={item.id}
-            href={`#${item.id}`}
-            className={cx(
-              item.level === 3 && 'kt-toc-h3',
-              activeId === item.id && 'kt-toc-active'
-            )}>
-            {item.text}
-          </a>
-        ))}
+        {toc.map(item => {
+          const id = getTocId(item)
+          return (
+            <a
+              key={item.id}
+              href={`#${id}`}
+              onClick={event => scrollToTocItem(event, id)}
+              className={cx(
+                item.indentLevel === 1 && 'kt-toc-h2',
+                item.indentLevel >= 2 && 'kt-toc-h3',
+                activeId === id && 'kt-toc-active'
+              )}>
+              {item.text}
+            </a>
+          )
+        })}
       </nav>
     </aside>
   )
