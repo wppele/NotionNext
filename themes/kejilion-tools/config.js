@@ -1,13 +1,16 @@
 const CONFIG = {
-  KEJILION_BRAND: process.env.NEXT_PUBLIC_KEJILION_BRAND || 'Kejilion Tools',
+  KEJILION_BRAND: process.env.NEXT_PUBLIC_KEJILION_BRAND || 'Kejilion',
   KEJILION_SUBTITLE:
     process.env.NEXT_PUBLIC_KEJILION_SUBTITLE ||
-    'A small collection of tools, experiments, and notes.',
+    '面向 Windows 和日常工作的自动化与效率工具集合。',
+  KEJILION_AVATAR: process.env.NEXT_PUBLIC_KEJILION_AVATAR || '',
   KEJILION_EMPTY_TEXT:
     process.env.NEXT_PUBLIC_KEJILION_EMPTY_TEXT ||
-    'No tools have been published yet. Add pages in Notion to show them here.',
+    '暂无内容，请在 Notion 中添加页面。',
   KEJILION_GITHUB:
-    process.env.NEXT_PUBLIC_CONTACT_GITHUB || process.env.NEXT_PUBLIC_GITHUB || ''
+    process.env.NEXT_PUBLIC_CONTACT_GITHUB || process.env.NEXT_PUBLIC_GITHUB || '',
+  KEJILION_TWITTER: process.env.NEXT_PUBLIC_CONTACT_TWITTER || '',
+  KEJILION_EMAIL: process.env.NEXT_PUBLIC_CONTACT_EMAIL || ''
 }
 
 export default CONFIG
